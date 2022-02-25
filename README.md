@@ -1,3 +1,3 @@
-# piano-challenge
-JavaScript challenge to learn to use ClickEvents
+# piano-challenge <br />
+JavaScript challenge to learn to use ClickEvents <br />
 view here: piano-challange-cissy.surge.sh
