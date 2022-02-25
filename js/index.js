@@ -1,19 +1,12 @@
-//generate 3 random numbers between 0 and 255
-
-function getRandomColor() {
-  let randomNumbers = [];
-  let numbers = 3;
-  while (numbers--) {
-    randomNumbers.push(Math.floor(Math.random() * 256));
-  }
-  return `rgb(${randomNumbers[0]}, ${randomNumbers[1]}, ${randomNumbers[2]})`;
-}
+const holder = document.querySelector("body");
+const playbutton = document.querySelector(".play");
 
 class Tile {
-  constructor(holder, color) {
+  constructor(holder) {
     this.holder = holder;
-    this.color = color;
+    this.color = this.getRandomColor();
     this.htmlRef = this.generateInitialHTML();
+    this.clicked = false;
     this.setUpEvents();
     this.setBackgroundColor();
   }
@@ -28,7 +21,7 @@ class Tile {
   }
 
   setStyling() {
-    this.htmlRef.style.height = "80%";
+    this.holder.style.background = this.color;
   }
 
   setUpEvents() {
@@ -37,10 +30,36 @@ class Tile {
       new Tile(holder, getRandomColor());
     };
   }
+
+  getRandomColor() {
+    let randomNumbers = [];
+    let numbers = 3;
+    while (numbers--) {
+      randomNumbers.push(Math.floor(Math.random() * 256));
+    }
+    return `rgb(${randomNumbers[0]}, ${randomNumbers[1]}, ${randomNumbers[2]})`;
+  }
 }
 
-const holder = document.querySelector("body");
-const color = getRandomColor();
+const allTiles = [];
 
-const tile = new Tile(holder, color);
-console.log(tile.bg);
+holder.onclick = () => {
+  allTiles.push(new Tile(holder));
+};
+
+playbutton.onclick = () => {
+  let teller = 0;
+  setInterval(function () {
+    if (teller === allTiles.length) {
+      console.log(teller);
+      allTiles[teller - 1].htmlRef.style.height = "50%";
+      teller = 0;
+    }
+    allTiles[teller].htmlRef.style.height = "80%";
+    holder.style.background = allTiles[teller].color;
+    if (teller >= 1) {
+      allTiles[teller - 1].htmlRef.style.height = "50%";
+    }
+    teller++;
+  }, 1000);
+};
